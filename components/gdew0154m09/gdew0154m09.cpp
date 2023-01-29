@@ -25,7 +25,9 @@ void GDEW0154M09::dump_config() {
 
 void GDEW0154M09::update() {
   do_update_();
-  display_();
+  if (is_image_changed_()) {
+    display_();
+  }
 }
 
 void GDEW0154M09::fill(Color color) {
@@ -141,6 +143,18 @@ uint32_t GDEW0154M09::get_buffer_length_() { return get_width_internal() * get_h
 void GDEW0154M09::clear_buffer_() {
   for (uint32_t i = 0; i < get_buffer_length_(); i++)
     buffer_[i] = 0xff;
+}
+
+bool GDEW0154M09::is_image_changed_() {
+  const uint32_t buffer_half = get_buffer_length_() / 2u;
+
+  for (uint32_t i = 0; i < buffer_half; i++) {
+    if (buffer_[i] != buffer_[i + buffer_half]) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 void GDEW0154M09::display_() {

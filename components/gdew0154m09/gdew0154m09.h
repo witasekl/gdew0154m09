@@ -46,8 +46,8 @@ class GDEW0154M09 : public PollingComponent,
   void start_data_();
   void end_data_();
   uint32_t get_buffer_length_();
-  void clear_();
   void clear_buffer_();
+  bool is_image_changed_();
   void display_();
 
   GPIOPin *dc_pin_;
