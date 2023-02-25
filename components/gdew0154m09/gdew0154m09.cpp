@@ -11,7 +11,6 @@ void GDEW0154M09::setup() {
   setup_pins_();
   initialize();
   init_internal_(get_buffer_length_());
-  clear_buffer_();
   clear_screen_();
 }
 
@@ -141,11 +140,6 @@ void GDEW0154M09::end_data_() { disable(); }
 
 uint32_t GDEW0154M09::get_buffer_length_() { return get_width_internal() * get_height_internal() / 8u * 2u; }
 
-void GDEW0154M09::clear_buffer_() {
-  for (uint32_t i = 0; i < get_buffer_length_(); i++)
-    buffer_[i] = 0xff;
-}
-
 bool GDEW0154M09::is_image_changed_() {
   const uint32_t buffer_half = get_buffer_length_() / 2u;
 
@@ -200,6 +194,7 @@ void GDEW0154M09::clear_screen_() {
   command(0x13);
   for (uint32_t i = 0; i < buffer_half; i++) {
     data(0xff);
+    buffer_[i] = buffer_[i + buffer_half] = 0xff;
   }
   delay(2);
   command(0x12);
