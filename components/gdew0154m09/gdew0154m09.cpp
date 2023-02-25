@@ -138,7 +138,7 @@ void GDEW0154M09::start_data_() {
 
 void GDEW0154M09::end_data_() { disable(); }
 
-uint32_t GDEW0154M09::get_buffer_length_() { return get_width_internal() * get_height_internal() / 8u * 2u; }
+uint32_t GDEW0154M09::get_buffer_length_() { return get_width_internal() * get_height_internal() / 4u; }
 
 bool GDEW0154M09::is_image_changed_() {
   const uint32_t buffer_half = get_buffer_length_() / 2u;
@@ -159,14 +159,13 @@ void GDEW0154M09::display_() {
   for (uint32_t i = buffer_half; i < buffer_half * 2u; i++) {
     data(buffer_[i]);
   }
-  wait_until_idle_();
+  delay(2);
   command(0x13);
-  wait_until_idle_();
   for (uint32_t i = 0; i < buffer_half; i++) {
     buffer_[i + buffer_half] = buffer_[i];
     data(buffer_[i]);
   }
-  wait_until_idle_();
+  delay(2);
   command(0x12);
   wait_until_idle_();
 }
