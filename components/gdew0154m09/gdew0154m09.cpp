@@ -159,11 +159,14 @@ void GDEW0154M09::display_() {
   for (uint32_t i = buffer_half; i < buffer_half * 2u; i++) {
     data(buffer_[i]);
   }
+  wait_until_idle_();
   command(0x13);
+  wait_until_idle_();
   for (uint32_t i = 0; i < buffer_half; i++) {
     buffer_[i + buffer_half] = buffer_[i];
     data(buffer_[i]);
   }
+  wait_until_idle_();
   command(0x12);
   wait_until_idle_();
 }
