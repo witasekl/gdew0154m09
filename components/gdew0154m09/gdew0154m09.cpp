@@ -12,6 +12,7 @@ void GDEW0154M09::setup() {
   initialize();
   init_internal_(get_buffer_length_());
   clear_buffer_();
+  clear_screen_();
 }
 
 void GDEW0154M09::dump_config() {
@@ -169,6 +170,38 @@ void GDEW0154M09::display_() {
     buffer_[i + buffer_half] = buffer_[i];
     data(buffer_[i]);
   }
+  command(0x12);
+  wait_until_idle_();
+}
+
+void GDEW0154M09::clear_screen_() {
+  const uint32_t buffer_half = get_buffer_length_() / 2u;
+
+  delay(1000);
+
+  command(0x10);
+  for (uint32_t i = 0; i < buffer_half; i++) {
+    data(0xff);
+  }
+  delay(2);
+  command(0x13);
+  for (uint32_t i = 0; i < buffer_half; i++) {
+    data(0x00);
+  }
+  delay(2);
+  command(0x12);
+  wait_until_idle_();
+
+  command(0x10);
+  for (uint32_t i = 0; i < buffer_half; i++) {
+    data(0x00);
+  }
+  delay(2);
+  command(0x13);
+  for (uint32_t i = 0; i < buffer_half; i++) {
+    data(0xff);
+  }
+  delay(2);
   command(0x12);
   wait_until_idle_();
 }
