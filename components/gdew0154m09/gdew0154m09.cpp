@@ -61,6 +61,8 @@ void GDEW0154M09::initialize() {
   data(0x00);
   command(0x50);
   data(0xd7);
+  command(0x30);
+  data(0x3f);
   command(0xe3);
   data(0x00);
   command(0x04);
