@@ -43,8 +43,8 @@ async def to_code(config):
     dc = await cg.gpio_pin_expression(config[CONF_DC_PIN])
     cg.add(var.set_dc_pin(dc))
 
-    reset = await cg.gpio_pin_expression(config[CONF_BUSY_PIN])
-    cg.add(var.set_busy_pin(reset))
+    busy = await cg.gpio_pin_expression(config[CONF_BUSY_PIN])
+    cg.add(var.set_busy_pin(busy))
 
     reset = await cg.gpio_pin_expression(config[CONF_RESET_PIN])
     cg.add(var.set_reset_pin(reset))
