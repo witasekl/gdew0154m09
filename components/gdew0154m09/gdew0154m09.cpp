@@ -40,10 +40,13 @@ void GDEW0154M09::fill(Color color) {
 
 void GDEW0154M09::initialize() {
   delay(1000);
-  command(0x00);
-  data(0xdf);
-  data(0x0e);
-  command(0x4D);
+  command(0x00);  // Panel setting
+  data(0xdf);     // 11 -> 200x200; 0 -> LUT from OTP; 1 -> BW mode;
+                  // 1 -> US scan up; 1 -> SHL shift right; 1 -> SHD_N booster on; 1 -> RST_N no effect
+  data(0x0e);     // 000; 0 -> VCOM no effect;
+                  // 1 -> before enabling booster, temp sensing on; 1 -> VGL will be tied to GND;
+                  // 1 -> expect refreshing display, VCOM is tied to GND; 0 -> display off, VCON is set to floating
+  command(0x4D);  // FIT iternal code
   data(0x55);
   command(0xaa);
   data(0x0f);
@@ -53,19 +56,19 @@ void GDEW0154M09::initialize() {
   data(0x11);
   command(0xf3);
   data(0x0a);
-  command(0x61);
-  data(0xc8);
-  data(0x00);
-  data(0xc8);
-  command(0x60);
-  data(0x00);
-  command(0x50);
+  command(0x61);  // resolution setting
+  data(0xc8);     // 11001000 -> horizontal resolution 200
+  data(0x00);     // 0000000; 0
+  data(0xc8);     // 11001000 -> vertical resolution 200
+  command(0x60);  // TCON setting
+  data(0x00);     // 0000 -> source to gate non overlap period 4; 0000 -> gate to source non overlap period 4
+  command(0x50);  // VCOM and data interval setting
   data(0xd7);
-  command(0x30);
-  data(0x3f);
-  command(0xe3);
+  command(0x30);  // PLL control
+  data(0x3f);     // 00; 111111 -> 29Hz
+  command(0xe3);  // Power saving
   data(0x00);
-  command(0x04);
+  command(0x04);  // Power on
 }
 
 void GDEW0154M09::command(uint8_t value) {
