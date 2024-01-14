@@ -11,8 +11,7 @@ class GDEW0154M09;
 
 using gdew0154m09_writer_t = std::function<void(GDEW0154M09 &)>;
 
-class GDEW0154M09 : public PollingComponent,
-                    public display::DisplayBuffer,
+class GDEW0154M09 : public display::DisplayBuffer,
                     public spi::SPIDevice<spi::BIT_ORDER_MSB_FIRST, spi::CLOCK_POLARITY_HIGH, spi::CLOCK_PHASE_TRAILING,
                                           spi::DATA_RATE_10MHZ> {
  public:
